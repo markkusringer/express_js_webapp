@@ -5,9 +5,11 @@ var ContactsView = React.createClass({
     render: function() {
         return (
             <DefaultLayout title={this.props.title}>
+                <p>All contacts</p>
                 <div>
-                    <p>All contacts</p>
-                    <p>{this.props.contacts}</p>
+                    <p>{this.props.count}</p>
+                    <p>{this.props.time}</p>
+                    <p>{JSON.stringify(this.props.contacts)}</p>
                 </div>
             </DefaultLayout>
         );
@@ -15,5 +17,3 @@ var ContactsView = React.createClass({
 });
 
 module.exports = ContactsView;
-
-

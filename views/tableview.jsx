@@ -1,16 +1,19 @@
 var React = require('react');
-var DefaultLayout = require('./default');
+var Table = require('./table');
 
 var TableView = React.createClass({
-    render: function() {
-        return (
-            <DefaultLayout title={this.props.title}>
-                {this.props.htmlData}
-            </DefaultLayout>
-        );
-    }
+  render: function() {
+    return (
+        <div>
+        <Table>
+            <Table.Row>
+                <Table.Column columnData={this.props.columnData} />
+            </Table.Row>
+        </Table>
+        </div>
+    );
+  }
 });
 
+
 module.exports = TableView;
-
-
