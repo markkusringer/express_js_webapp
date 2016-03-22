@@ -27,7 +27,7 @@ var ContactForm = {
             widget: widgets.select(),
             required: true
         }),
-        subscribed: fields.boolean({ required: true})
+        subscribed: fields.boolean()
     }),
     adaptData: function(data) {
         return data;

@@ -65,39 +65,35 @@ router.post('/create', function(req, res, next) {
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     // do validation on name here
-    console.log('doing id validations on ' + id);
-    // once validation is done save the new item in the req
-    if( Number(id) ) {
-        req.id = Number(id);
-        // go to the next thing
-        next();
-    } else {
-        res.redirect("/");
-    }
+    var Contact = bookshelf.model('Contact');
+    new Contact({id: id})
+        .fetch()
+        .then(function(contact) {
+            if( contact ) { // once validation is done save the new item in the req
+                req.contact = contact;
+                next();
+            } else {
+                res.redirect("/");
+            }
+        });
 });
 
 /* GET contacts/update/:id */
 router.get('/update/:id', function(req, res, next) {
     var schema = require('../schemas/contact.js');
-    var Contact = bookshelf.model('Contact');
-    new Contact({id: Number(req.params.id)})
-        .fetch()
-        .then(handleRequest);
-    function handleRequest(contact) {
-        var Country = bookshelf.model('Country');
-        var countryData = {};
-        Country.fetchAll().then(function(countries) {
-            _.each(countries.toJSON(), function(country) {
-                countryData[country.id] = country.name_en;
-            });
-            schema.form.fields.country_id.choices = countryData;
-            schema.form.handle(req, {
-                empty: function (form) {
-                    res.render('form_view', { form_html: form.bind(contact.toJSON()).toHTML() });
-                }
-            });
+    var Country = bookshelf.model('Country');
+    var countryData = {};
+    Country.fetchAll().then(function(countries) {
+        _.each(countries.toJSON(), function(country) {
+            countryData[country.id] = country.name_en;
         });
-    }
+        schema.form.fields.country_id.choices = countryData;
+        schema.form.handle(req, {
+            empty: function (form) {
+                res.render('form_view', { form_html: form.bind(req.contact.toJSON()).toHTML() });
+            }
+        });
+    });
 });
 
 /* POST contacts/update/:id */

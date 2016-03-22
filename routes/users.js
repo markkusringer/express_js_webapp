@@ -38,12 +38,12 @@ router.post('/create', function(req, res, next) {
             //console.log("success");
             var User = bookshelf.model('User');
             var userData = schema.adaptData(form.data);
-            new User(
-                userData
-            ).save().then(function(model) {
-                console.log("SAVED");
-                res.render('form_view', { form_html: form.toHTML() });
-            });
+            new User(userData)
+                .save()
+                .then(function(model) {
+                    console.log("SAVED");
+                    res.render('form_view', { form_html: form.toHTML() });
+                });
         },
         error: function (form) {
             // the data in the request didn't validate,
@@ -57,32 +57,28 @@ router.post('/create', function(req, res, next) {
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     // do validation on name here
-    console.log('doing id validations on ' + id);
-    // once validation is done save the new item in the req
-    if( Number(id) ) {
-        req.id = Number(id);
-        // go to the next thing
-        next();
-    } else {
-        res.redirect("/");
-    }
+    var User = bookshelf.model('User');
+    new User({id: id})
+        .fetch()
+        .then(function(user) {
+            if( user ) { // once validation is done save the new item in the req
+                req.user = user;
+                next();
+            } else {
+                res.redirect("/");
+            }
+        });
 });
 
 /* GET users/update/:id */
 router.get('/update/:id', function(req, res, next) {
     var schema = require('../schemas/user.js');
-    console.log(util.inspect(schema));
-    var User = bookshelf.model('User');
-    new User({id: Number(req.params.id)})
-        .fetch()
-        .then(handleRequest);
-    function handleRequest(user) {
-        schema.form.handle(req, {
-            empty: function (form) {
-                res.render('form_view', { form_html: form.bind(user.toJSON()).toHTML() });
-            }
-        });
-    }
+    //console.log(util.inspect(schema));
+    schema.form.handle(req, {
+        empty: function (form) {
+            res.render('form_view', { form_html: form.bind(req.user.toJSON()).toHTML() });
+        }
+    });
 });
 
 /* POST users/update/:id */
