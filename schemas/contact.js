@@ -12,21 +12,26 @@ var validators = forms.validators;
 var widgets = forms.widgets;
 var ContactType = require('./contacttype');
 
-var ContactForm = forms.create({
-    firstname: fields.string({ required: true }),
-    lastname: fields.string({ required: true }),
-    email: fields.email(),
-    country_id: fields.number({
-        choices: {},
-        widget: widgets.select(),
-        required: true
+var ContactForm = {
+    form: forms.create({
+        firstname: fields.string({ required: true }),
+        lastname: fields.string({ required: true }),
+        email: fields.email(),
+        country_id: fields.number({
+            choices: {},
+            widget: widgets.select(),
+            required: true
+        }),
+        contact_type_id: fields.number({
+            choices: ContactType.toJSON(),
+            widget: widgets.select(),
+            required: true
+        }),
+        subscribed: fields.boolean({ required: true})
     }),
-    contact_type_id: fields.number({
-        choices: ContactType.toJSON(),
-        widget: widgets.select(),
-        required: true
-    }),
-    subscribed: fields.boolean({ required: true})
-});
+    adaptData: function(data) {
+        return data;
+    }
+};
 
 module.exports = ContactForm;

@@ -1,0 +1,68 @@
+html,
+body,
+ul,
+ol,
+a,
+form,
+legend,
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+html img,
+body img,
+ul img,
+ol img,
+a img,
+form img,
+legend img,
+fieldset img {
+  border: none;
+  display: block;
+}
+
+body {
+  font: 62.5% Arial;
+  color: #333;
+  background-color: #eee;
+}
+
+.container {
+  font-size: 1.6em;
+  width: 100%;
+}
+
+.wrapper {
+  width: 96%;
+  margin: 0 auto;
+  max-width: 168em;
+  background-color: #eee;
+}
+
+form {
+  width: 100%;
+}
+form .field {
+  width: 100%;
+  float: left;
+  clear: left;
+  margin: .5em 0;
+}
+form input,
+form button {
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 4px;
+  font-size: 1em;
+  font-family: Arial;
+  color: #333;
+}
+form label {
+  min-width: 20em;
+  display: block;
+}
+form button {
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+}

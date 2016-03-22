@@ -3,7 +3,7 @@ var Griddle = require('griddle-react');
 
 var LinkComponent = React.createClass({
     render: function(){
-        url ="/users/update/" + this.props.data;
+        url ="/contacts/update/" + this.props.data;
         return <a href={url}>{this.props.data}</a>
     }
 });

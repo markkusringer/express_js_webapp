@@ -6,13 +6,18 @@ var DefaultLayout = React.createClass({
       <html>
         <head>
             <title>{this.props.title}</title>
+            <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
             <script dangerouslySetInnerHTML={{__html: `
               // google analtyics
               // is a common use
             `}} />
         </head>
         <body>
-            {this.props.children}
+            <div className={"container"}>
+                <div className={"wrapper"}>
+                    {this.props.children}
+                </div>
+            </div>
         </body>
       </html>
     );

@@ -22542,7 +22542,7 @@ var Griddle = require('griddle-react');
 
 var LinkComponent = React.createClass({displayName: "LinkComponent",
     render: function(){
-        url ="/users/update/" + this.props.data;
+        url ="/contacts/update/" + this.props.data;
         return React.createElement("a", {href: url}, this.props.data)
     }
 });

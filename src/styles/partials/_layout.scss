@@ -1,0 +1,17 @@
+body {
+    font:  $font-body-size $font-stack;
+    color: $primary-color;
+    background-color: $bg-color;
+}
+
+.container {
+    font-size: $font-deafult-size;
+    width: 100%;
+}
+
+.wrapper {
+    width: 96%;
+    margin: 0 auto;
+    max-width: 168em;
+    background-color: $bg-color;
+}

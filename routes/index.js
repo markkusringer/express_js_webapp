@@ -44,7 +44,7 @@ router.get('/', function(req, res, next) {
 
 /* GET form page. */
 router.get('/form/:id?', function(req, res, next) {
-    var userForm = require('../schemas/user.js');
+    var schema = require('../schemas/contact.js');
     var Country = bookshelf.model('Country');
     var Contact = bookshelf.model('Contact');
     var countryData = {};
@@ -60,8 +60,8 @@ router.get('/form/:id?', function(req, res, next) {
             _.each(countries.toJSON(), function(country) {
                 countryData[country.id] = country.name_en;
             });
-            userForm.fields.country_id.choices = countryData;
-            userForm.handle(req, {
+            schema.form.fields.country_id.choices = countryData;
+            schema.form.handle(req, {
                 empty: function (form) {
                     // there was no form data in the request
                     console.log("empty");
@@ -77,8 +77,8 @@ router.get('/form/:id?', function(req, res, next) {
 
 /* POST form page. */
 router.post('/form/:id', function(req, res, next) {
-    var userForm = require('../schemas/user.js');
-    userForm.handle(req, {
+    var schema = require('../schemas/contact.js');
+    schema.form.handle(req, {
         success: function (form) {
             // there is a request and the form is valid
             // form.data contains the submitted data

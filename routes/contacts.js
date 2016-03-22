@@ -4,38 +4,46 @@ var _ = require('underscore');
 var util = require('util');
 var bookshelf = require('../models/include.js');
 
-/* GET users list */
+/* GET contacts list */
 router.get('/', function(req, res, next) {
-    // Fetch all users
-    bookshelf.model('User').fetchAll().then(function(contacts){
+    // Fetch all contacts
+    bookshelf.model('Contact').fetchAll().then(function(contacts){
         res.render('griddle', { title: 'Express', contacts: contacts.toJSON()});
     }).catch(function(err) {
         console.error(err);
     });
 });
 
-/* GET users/create */
+/* GET contacts/create */
 router.get('/create', function(req, res, next) {
-    var schema = require('../schemas/user.js');
-    schema.form.handle(req, {
-        empty: function (form) {
-            res.render('form_view', { form_html: form.toHTML() });
-        }
+    var schema = require('../schemas/contact.js');
+    var Country = bookshelf.model('Country');
+    var countryData = {};
+    Country.fetchAll().then(function(countries) {
+        _.each(countries.toJSON(), function(country) {
+            countryData[country.id] = country.name_en;
+        });
+        schema.form.fields.country_id.choices = countryData;
+        schema.form.handle(req, {
+            empty: function (form) {
+                res.render('form_view', { form_html: form.toHTML() });
+            }
+        });
     });
 });
 
-/* POST users/create */
+/* POST contacts/create */
 router.post('/create', function(req, res, next) {
-    var schema = require('../schemas/user.js');
+    var schema = require('../schemas/contact.js');
     schema.form.handle(req, {
         success: function (form) {
             // there is a request and the form is valid
             // form.data contains the submitted data
             //console.log("success");
-            var User = bookshelf.model('User');
-            var userData = schema.adaptData(form.data);
-            new User(
-                userData
+            var Contact = bookshelf.model('Contact');
+            var contactData = schema.adaptData(form.data);
+            new Contact(
+                contactData
             ).save().then(function(model) {
                 console.log("SAVED");
                 res.render('form_view', { form_html: form.toHTML() });
@@ -64,37 +72,43 @@ router.param('id', function(req, res, next, id) {
     }
 });
 
-/* GET users/update/:id */
+/* GET contacts/update/:id */
 router.get('/update/:id', function(req, res, next) {
-    var schema = require('../schemas/user.js');
-    console.log(util.inspect(schema));
-    var User = bookshelf.model('User');
-    new User({id: Number(req.params.id)})
+    var schema = require('../schemas/contact.js');
+    var Contact = bookshelf.model('Contact');
+    new Contact({id: Number(req.params.id)})
         .fetch()
         .then(handleRequest);
-    function handleRequest(user) {
-        schema.form.handle(req, {
-            empty: function (form) {
-                res.render('form_view', { form_html: form.bind(user.toJSON()).toHTML() });
-            }
+    function handleRequest(contact) {
+        var Country = bookshelf.model('Country');
+        var countryData = {};
+        Country.fetchAll().then(function(countries) {
+            _.each(countries.toJSON(), function(country) {
+                countryData[country.id] = country.name_en;
+            });
+            schema.form.fields.country_id.choices = countryData;
+            schema.form.handle(req, {
+                empty: function (form) {
+                    res.render('form_view', { form_html: form.bind(contact.toJSON()).toHTML() });
+                }
+            });
         });
     }
 });
 
-/* POST users/update/:id */
+/* POST contacts/update/:id */
 router.post('/update/:id', function(req, res, next) {
-    var schema = require('../schemas/user.js');
+    var schema = require('../schemas/contact.js');
     schema.form.handle(req, {
         success: function (form) {
             // there is a request and the form is valid
             // form.data contains the submitted data
             //console.log("success");
-            var User = bookshelf.model('User');
-            console.log(util.inspect(schema));
-            var userData = schema.adaptData(form.data);
-            userData["id"] = req.params.id;
-            var user = new User(
-                userData
+            var Contact = bookshelf.model('Contact');
+            var contactData = schema.adaptData(form.data);
+            contactData["id"] = req.params.id;
+            new Contact(
+                contactData
             ).save().then(function(model) {
                 console.log("SAVED");
                 res.render('form_view', { form_html: form.toHTML() });
@@ -109,7 +123,7 @@ router.post('/update/:id', function(req, res, next) {
     });
 });
 
-/* GET users/:id */
+/* GET contacts/:id */
 router.get('/:id', function(req, res, next) {
     res.send('respond with a single user');
 });

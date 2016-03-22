@@ -9,5 +9,8 @@
 var bookshelf = require('./package.js');
 
 module.exports = bookshelf.model('User', {
-    tableName: 'users'
+    tableName: 'users',
+    hidden: [
+        "password"
+    ]
 });

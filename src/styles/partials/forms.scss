@@ -1,0 +1,31 @@
+form {
+    width: 100%;
+
+    .field {
+        width: 100%;
+        float: left;
+        clear: left;
+        margin: .5em 0;
+    }
+
+    input,
+    button {
+        border: 1px solid #666;
+        border-radius: 3px;
+        padding: 4px;
+        font-size: 1em;
+        font-family: $font-stack;
+        color: $primary-color;
+    }
+
+    label {
+        min-width: 20em;
+        display: block;
+    }
+
+    button {
+        background-color: #000;
+        color: #fff;
+        cursor: pointer;
+    }
+}
