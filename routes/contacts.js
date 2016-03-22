@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
 
 /* GET contacts/create */
 router.get('/create', function(req, res, next) {
+    console.log("GET /create");
     var schema = require('../schemas/contact.js');
     var Country = bookshelf.model('Country');
     var countryData = {};
@@ -38,6 +39,7 @@ router.get('/create', function(req, res, next) {
 
 /* POST contacts/create */
 router.post('/create', function(req, res, next) {
+    console.log("POST /create");
     var schema = require('../schemas/contact.js');
     schema.form.handle(req, {
         success: function (form) {
@@ -46,12 +48,12 @@ router.post('/create', function(req, res, next) {
             //console.log("success");
             var Contact = bookshelf.model('Contact');
             var contactData = schema.adaptData(form.data);
-            new Contact(
-                contactData
-            ).save().then(function(model) {
-                console.log("SAVED");
-                res.render('form_view', { form_html: form.toHTML() });
-            });
+            new Contact(contactData)
+                .save()
+                .then(function(model) {
+                    console.log("SAVED");
+                    res.render('form_view', { form_html: form.toHTML() });
+                });
         },
         error: function (form) {
             // the data in the request didn't validate,
