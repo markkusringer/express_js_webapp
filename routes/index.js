@@ -110,7 +110,7 @@ router.post('/form/:id', function(req, res, next) {
 });
 
 /* GET contacts. */
-router.get('/contacts', function(req, res, next) {
+router.get('/columninfo', function(req, res, next) {
 
     // Fetch all contacts
     var Contact = bookshelf.model('Contact');

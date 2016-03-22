@@ -12,7 +12,7 @@ module.exports = function(grunt){
         ]
       },
       dist: {
-        src: ['src/griddle.jsx'],
+        src: ['src/react/*.jsx'],
         dest: 'public/bundle.js'
       }
     },

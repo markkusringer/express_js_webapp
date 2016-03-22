@@ -7,8 +7,12 @@ var bookshelf = require('../models/include.js');
 /* GET users list */
 router.get('/', function(req, res, next) {
     // Fetch all users
-    bookshelf.model('User').fetchAll().then(function(contacts){
-        res.render('griddle', { title: 'Express', contacts: contacts.toJSON()});
+    bookshelf.model('User').fetchAll().then(function(users){
+        res.render('griddle', {
+            title: 'Express',
+            content_id: 'users',
+            items: JSON.stringify(users)
+        });
     }).catch(function(err) {
         console.error(err);
     });

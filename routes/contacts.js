@@ -8,7 +8,11 @@ var bookshelf = require('../models/include.js');
 router.get('/', function(req, res, next) {
     // Fetch all contacts
     bookshelf.model('Contact').fetchAll().then(function(contacts){
-        res.render('griddle', { title: 'Express', contacts: contacts.toJSON()});
+        res.render('griddle', {
+            title: 'Express',
+            content_id: 'contacts',
+            items: JSON.stringify(contacts)
+        });
     }).catch(function(err) {
         console.error(err);
     });
