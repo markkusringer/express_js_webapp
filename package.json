@@ -14,6 +14,7 @@
     "express-react-views": "^0.9.0",
     "fixed-data-table": "^0.6.0",
     "griddle-react": "~0.3.1",
+    "i18n": "^0.8.1",
     "jade": "~1.9.2",
     "knex": "^0.9.0",
     "morgan": "~1.5.1",
@@ -28,19 +29,20 @@
   },
   "devDependencies": {
     "browserify": "~13.0.0",
+    "colors": "^1.1.2",
     "grunt": "~0.4.5",
     "grunt-browserify": "~4.0.1",
     "grunt-cli": "^0.1.13",
-    "sass": "^0.5.0",
     "gulp": "^3.9.1",
-    "gulp-ruby-sass": "^2.0.6",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-batch": "^1.0.5",
     "gulp-imagemin": "^2.4.0",
     "gulp-notify": "^2.2.0",
+    "gulp-ruby-sass": "^2.0.6",
     "gulp-watch": "^4.3.5",
     "load-grunt-tasks": "^3.4.0",
     "node-jsx": "^0.13.3",
-    "reactify": "^1.1.1"
+    "reactify": "^1.1.1",
+    "sass": "^0.5.0"
   }
 }

@@ -9,6 +9,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var contacts = require('./routes/contacts');
 
+var i18n = require('./i18n');
+
 var app = express();
 
 // CUSTOM VIEW ENGINE: Using React JS as view engine
@@ -18,8 +20,10 @@ app.set('view engine', 'jade');
 //app.engine('jsx', require('express-react-views').createEngine({beautify: true}));
 // ---------------------------------------- //
 
+app.use(i18n);
+
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
