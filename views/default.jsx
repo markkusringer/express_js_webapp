@@ -6,6 +6,8 @@ var DefaultLayout = React.createClass({
       <html>
         <head>
             <title>{this.props.title}</title>
+            <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+            <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
             <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
             <script dangerouslySetInnerHTML={{__html: `
               // google analtyics
@@ -15,6 +17,15 @@ var DefaultLayout = React.createClass({
         <body>
             <div className={"container"}>
                 <div className={"wrapper"}>
+                    <nav>
+                        <ul>
+                        {
+                            ['/contacts','/users'].map(function(option){
+                                return (<li><a href={option}>{option}</a></li>);
+                            })
+                        }
+                        </ul>
+                    </nav>
                     {this.props.children}
                 </div>
             </div>

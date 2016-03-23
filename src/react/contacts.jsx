@@ -9,10 +9,12 @@ var LinkComponent = React.createClass({
     }
 });
 
-var columnMeta = [{
-  "columnName": "id",
-  "customComponent": LinkComponent
-}];
+var columnMeta = [
+    {
+      "columnName": "id",
+      "customComponent": LinkComponent
+    }
+];
 
 if( document.getElementById('contacts') )
     ReactDOM.render(

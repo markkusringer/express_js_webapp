@@ -7,15 +7,19 @@ var bookshelf = require('../models/include.js');
 /* GET users list */
 router.get('/', function(req, res, next) {
     // Fetch all users
-    bookshelf.model('User').fetchAll().then(function(users){
-        res.render('griddle', {
-            title: 'Express',
-            content_id: 'users',
-            items: JSON.stringify(users)
+    bookshelf.model('User')
+        .fetchAll()
+        .then(function(users){
+           res.render('list', {
+                title: 'Express',
+                content_id: 'users',
+                items: JSON.stringify(users)
+            });
+            res.end();
+        }).catch(function(err) {
+            console.error(err);
+            res.end();
         });
-    }).catch(function(err) {
-        console.error(err);
-    });
 });
 
 /* GET users/create */
@@ -23,7 +27,7 @@ router.get('/create', function(req, res, next) {
     var schema = require('../schemas/user.js');
     schema.form.handle(req, {
         empty: function (form) {
-            res.render('form_view', { form_html: form.toHTML() });
+            res.render('form', { form_html: form.toHTML() });
         }
     });
 });
@@ -42,14 +46,14 @@ router.post('/create', function(req, res, next) {
                 .save()
                 .then(function(model) {
                     console.log("SAVED");
-                    res.render('form_view', { form_html: form.toHTML() });
+                    res.render('form', { form_html: form.toHTML() });
                 });
         },
         error: function (form) {
             // the data in the request didn't validate,
             // calling form.toHTML() again will render the error messages
             console.log("error");
-            res.render('form_view', { form_html: form.toHTML() });
+            res.render('form', { form_html: form.toHTML() });
         }
     });
 });
@@ -76,7 +80,7 @@ router.get('/update/:id', function(req, res, next) {
     //console.log(util.inspect(schema));
     schema.form.handle(req, {
         empty: function (form) {
-            res.render('form_view', { form_html: form.bind(req.user.toJSON()).toHTML() });
+            res.render('form', { form_html: form.bind(req.user.toJSON()).toHTML() });
         }
     });
 });
@@ -97,14 +101,14 @@ router.post('/update/:id', function(req, res, next) {
                 userData
             ).save().then(function(model) {
                 console.log("SAVED");
-                res.render('form_view', { form_html: form.toHTML() });
+                res.render('form', { form_html: form.toHTML() });
             });
         },
         error: function (form) {
             // the data in the request didn't validate,
             // calling form.toHTML() again will render the error messages
             console.log("error");
-            res.render('form_view', { form_html: form.toHTML() });
+            res.render('form', { form_html: form.toHTML() });
         }
     });
 });

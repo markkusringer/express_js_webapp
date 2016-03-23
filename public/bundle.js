@@ -11086,10 +11086,7 @@ var ReactDOMOption = {
       }
     });
 
-    if (content) {
-      nativeProps.children = content;
-    }
-
+    nativeProps.children = content;
     return nativeProps;
   }
 
@@ -17258,7 +17255,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.7';
+module.exports = '0.14.6';
 },{}],129:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18353,7 +18350,6 @@ var warning = require('fbjs/lib/warning');
  */
 var EventInterface = {
   type: null,
-  target: null,
   // currentTarget is set when dispatching; no use in copying it here
   currentTarget: emptyFunction.thatReturnsNull,
   eventPhase: null,
@@ -18387,6 +18383,8 @@ function SyntheticEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEvent
   this.dispatchConfig = dispatchConfig;
   this.dispatchMarker = dispatchMarker;
   this.nativeEvent = nativeEvent;
+  this.target = nativeEventTarget;
+  this.currentTarget = nativeEventTarget;
 
   var Interface = this.constructor.Interface;
   for (var propName in Interface) {
@@ -18397,11 +18395,7 @@ function SyntheticEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEvent
     if (normalize) {
       this[propName] = normalize(nativeEvent);
     } else {
-      if (propName === 'target') {
-        this.target = nativeEventTarget;
-      } else {
-        this[propName] = nativeEvent[propName];
-      }
+      this[propName] = nativeEvent[propName];
     }
   }
 
@@ -22559,10 +22553,16 @@ var LinkComponent = React.createClass({displayName: "LinkComponent",
     }
 });
 
-var columnMeta = [{
-  "columnName": "id",
-  "customComponent": LinkComponent
-}];
+var columnMeta = [
+    {
+      "columnName": "id",
+      "customComponent": LinkComponent
+    },
+    {
+        "columnName": "country.id",
+        "visible": false
+    }
+];
 
 if( document.getElementById('contacts') )
     ReactDOM.render(

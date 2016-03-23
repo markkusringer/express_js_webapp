@@ -1,0 +1,8 @@
+extends ./default.jade
+
+block content
+    div(id=content_id)
+block scripts
+    script(type='text/javascript').
+        var items = !{items}
+    script(type='text/javascript' src='/bundle.js')

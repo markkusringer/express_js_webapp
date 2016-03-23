@@ -15,3 +15,17 @@ body {
     max-width: 168em;
     background-color: $bg-color;
 }
+
+table {
+    border-collapse: collapse;
+}
+
+nav {
+    width: 100%;
+    padding: 2em 0;
+    ul li {
+        float: left;
+        display: inline-block;
+        margin-right: 1em;
+    }
+}

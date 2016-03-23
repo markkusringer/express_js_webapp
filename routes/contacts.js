@@ -7,15 +7,30 @@ var bookshelf = require('../models/include.js');
 /* GET contacts list */
 router.get('/', function(req, res, next) {
     // Fetch all contacts
-    bookshelf.model('Contact').fetchAll().then(function(contacts){
-        res.render('griddle', {
-            title: 'Express',
-            content_id: 'contacts',
-            items: JSON.stringify(contacts)
+    var Contact = bookshelf.model('Contact');
+        Contact.forge()
+        .query(function(qb) {
+            //qb is knex query builder, use knex function here
+            qb.offset(0).limit(1500);
+        })
+        .fetchAll({
+            withRelated: [{
+                country: function (qb) {
+                    qb.column('id','name_en');
+                },
+            }]
+        })
+        .then(function(contacts){
+            res.render('list', {
+                title: 'Express',
+                content_id: 'contacts',
+                items: JSON.stringify(contacts)
+            });
+            res.end();
+        }).catch(function(err) {
+            console.error(err);
+            res.end();
         });
-    }).catch(function(err) {
-        console.error(err);
-    });
 });
 
 /* GET contacts/create */
@@ -31,7 +46,7 @@ router.get('/create', function(req, res, next) {
         schema.form.fields.country_id.choices = countryData;
         schema.form.handle(req, {
             empty: function (form) {
-                res.render('form_view', { form_html: form.toHTML() });
+                res.render('form', { form_html: form.toHTML() });
             }
         });
     });
@@ -52,14 +67,14 @@ router.post('/create', function(req, res, next) {
                 .save()
                 .then(function(model) {
                     console.log("SAVED");
-                    res.render('form_view', { form_html: form.toHTML() });
+                    res.render('form', { form_html: form.toHTML() });
                 });
         },
         error: function (form) {
             // the data in the request didn't validate,
             // calling form.toHTML() again will render the error messages
             console.log("error");
-            res.render('form_view', { form_html: form.toHTML() });
+            res.render('form', { form_html: form.toHTML() });
         }
     });
 });
@@ -92,7 +107,7 @@ router.get('/update/:id', function(req, res, next) {
         schema.form.fields.country_id.choices = countryData;
         schema.form.handle(req, {
             empty: function (form) {
-                res.render('form_view', { form_html: form.bind(req.contact.toJSON()).toHTML() });
+                res.render('form', { form_html: form.bind(req.contact.toJSON()).toHTML() });
             }
         });
     });
@@ -113,14 +128,14 @@ router.post('/update/:id', function(req, res, next) {
                 contactData
             ).save().then(function(model) {
                 console.log("SAVED");
-                res.render('form_view', { form_html: form.toHTML() });
+                res.render('form', { form_html: form.toHTML() });
             });
         },
         error: function (form) {
             // the data in the request didn't validate,
             // calling form.toHTML() again will render the error messages
             console.log("error");
-            res.render('form_view', { form_html: form.toHTML() });
+            res.render('form', { form_html: form.toHTML() });
         }
     });
 });
